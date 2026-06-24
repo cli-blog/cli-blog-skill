@@ -60,3 +60,111 @@ export async function loader() {
 ## CI
 
 Use the CLI with `CLI_BLOG_API_KEY` from repository secrets. Use `--demo` in smoke tests that should not mutate real content.
+
+## PHP
+
+Use direct API calls from the server. Keep keys in environment variables.
+
+```php
+<?php
+
+$apiKey = getenv('CLI_BLOG_PUBLIC_KEY');
+$url = 'https://api.cli-blog.com/v1/posts?status=published&fields=summary,seo&include=authors';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-api-key: ' . $apiKey]);
+
+$response = curl_exec($ch);
+$posts = json_decode($response, true);
+curl_close($ch);
+```
+
+## Laravel
+
+Use Laravel's HTTP client from controllers, jobs, or services.
+
+```php
+use Illuminate\Support\Facades\Http;
+
+$posts = Http::withHeaders([
+    'x-api-key' => config('services.cli_blog.public_key'),
+])->get('https://api.cli-blog.com/v1/posts', [
+    'status' => 'published',
+    'fields' => 'summary,seo',
+    'include' => 'authors',
+])->json();
+```
+
+Store keys in `.env` and expose them through `config/services.php`, not frontend JavaScript.
+
+## Python
+
+Use direct API calls from backend code, scripts, or jobs.
+
+```py
+import os
+import requests
+
+response = requests.get(
+    "https://api.cli-blog.com/v1/posts",
+    headers={"x-api-key": os.environ["CLI_BLOG_PUBLIC_KEY"]},
+    params={"status": "published", "fields": "summary,seo", "include": "authors"},
+    timeout=10,
+)
+response.raise_for_status()
+posts = response.json()
+```
+
+## Django
+
+Keep API calls in views, management commands, Celery tasks, or service modules.
+
+```py
+import requests
+from django.conf import settings
+from django.shortcuts import render
+
+def blog_index(request):
+    response = requests.get(
+        "https://api.cli-blog.com/v1/posts",
+        headers={"x-api-key": settings.CLI_BLOG_PUBLIC_KEY},
+        params={"status": "published", "fields": "summary,seo", "include": "authors"},
+        timeout=10,
+    )
+    response.raise_for_status()
+    return render(request, "blog/index.html", {"posts": response.json()["data"]})
+```
+
+## Ruby On Rails
+
+Use server-side HTTP from controllers, jobs, or service objects.
+
+```rb
+require "net/http"
+require "json"
+
+uri = URI("https://api.cli-blog.com/v1/posts")
+uri.query = URI.encode_www_form(status: "published", fields: "summary,seo", include: "authors")
+
+request = Net::HTTP::Get.new(uri)
+request["x-api-key"] = ENV.fetch("CLI_BLOG_PUBLIC_KEY")
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
+posts = JSON.parse(response.body)
+```
+
+## Go
+
+Use server-side HTTP clients and pass the API key in the `x-api-key` header.
+
+```go
+req, _ := http.NewRequest("GET", "https://api.cli-blog.com/v1/posts?status=published&fields=summary,seo", nil)
+req.Header.Set("x-api-key", os.Getenv("CLI_BLOG_PUBLIC_KEY"))
+
+res, err := http.DefaultClient.Do(req)
+if err != nil {
+  return err
+}
+defer res.Body.Close()
+```

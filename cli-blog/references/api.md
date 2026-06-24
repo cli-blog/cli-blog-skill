@@ -20,7 +20,6 @@ Rules:
 - Use multipart upload only for media files.
 - Use query parameters for list filters, sorting, pagination, locale, fields, and includes.
 - Use `GET` for reads, `POST` for creates/updates, and `DELETE` for deletes.
-- Do not expose dashboard-only settings or session APIs as public API-key routes.
 
 Read posts:
 

@@ -45,9 +45,8 @@ Read only the reference needed for the task:
 - Recommended post list fields for index pages: `["summary", "seo"]`.
 - Recommended post list includes for index pages: `["authors"]`, adding `categories`, `tags`, or `media` only when rendered.
 
-## Quality Bar
+## Output Style
 
 - Prefer server-side examples that protect secrets.
 - Keep examples realistic and complete enough to paste into a project.
-- Do not document internal release procedures or maintainer-only workflow in user-facing output.
 - When adding docs, include what the user types, what parameters matter, and the response shape they should expect.

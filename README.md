@@ -12,23 +12,27 @@ Use this skill to help AI agents add [Cli Blog](https://cli-blog.com) to softwar
 
 ## Install For Codex / OpenAI Agents
 
-Copy or install the `cli-blog/` folder as a skill in your agent skills directory.
+Clone the repository:
 
 ```sh
 git clone https://github.com/cli-blog/cli-blog-skill.git
 ```
 
-Then point your agent at:
+Install it for your user-level Codex configuration:
 
-```txt
-cli-blog/SKILL.md
+```sh
+mkdir -p ~/.codex/skills
+cp -R cli-blog-skill/cli-blog ~/.codex/skills/cli-blog
 ```
 
-The OpenAI-facing metadata lives at:
+Or install it in one project using the shared agent-skills convention:
 
-```txt
-cli-blog/agents/openai.yaml
+```sh
+mkdir -p .agents/skills
+cp -R cli-blog-skill/cli-blog .agents/skills/cli-blog
 ```
+
+Restart or reload the agent after installation so it discovers `cli-blog/SKILL.md`. OpenAI-facing metadata lives at `cli-blog/agents/openai.yaml`.
 
 ## Install For Claude Code
 
@@ -38,7 +42,14 @@ Claude Code commonly reads `CLAUDE.md` project instructions. This repository inc
 git clone https://github.com/cli-blog/cli-blog-skill.git
 ```
 
-In Claude Code, open the cloned repository or copy `CLAUDE.md` and the `cli-blog/` folder into the workspace where you want Claude to use the skill.
+Install the skill in a Claude Code project:
+
+```sh
+mkdir -p .claude/skills
+cp -R cli-blog-skill/cli-blog .claude/skills/cli-blog
+```
+
+The root `CLAUDE.md` is optional project guidance for repositories that want to route matching tasks to the installed skill.
 
 The Claude-facing helper note lives at:
 
@@ -80,5 +91,5 @@ Use the Cli Blog skill to integrate published posts into this Django app.
 
 - Keep private API keys out of browser code.
 - Use `@cli-blog/node` in trusted Node.js 20+ runtimes.
-- Use `@cli-blog/cli --demo` for no-setup smoke tests.
+- Use `cli-blog posts list --demo --json` for a no-setup smoke test.
 - Use direct HTTP for PHP, Laravel, Python, Django, Rails, Go, and other non-JavaScript backends.

@@ -23,8 +23,9 @@ Cli Blog is an API-first blogging platform for developer products and agent work
 4. Model content in this order when publishing: authors, media, categories/tags, then posts.
 5. Keep post body source as Markdown through `body_markdown`.
 6. Use `fields` and `include` on post reads so delivery views request only what they need.
-7. Add error handling for `401`, `403`, `404`, `409`, `429`, and `5xx`.
-8. Verify with demo CLI commands or a small read request before declaring the integration done.
+7. Use cursor pagination by default; use numbered `page`/`per_page` only when the integration needs exact page counts.
+8. Add error handling for `401`, `403`, `404`, `409`, `429`, and `5xx`.
+9. Verify with demo CLI commands or a small read request before declaring the integration done.
 
 ## References
 
@@ -41,9 +42,10 @@ Read only the reference needed for the task:
 - Node SDK package: `@cli-blog/node`.
 - CLI package: `@cli-blog/cli`.
 - Installed CLI command: `cli-blog`.
-- Default locale: `en-US`.
+- New organizations start with `en-US`; omitted locale controls use the organization's configured primary locale.
 - Recommended post list fields for index pages: `["summary", "seo"]`.
 - Recommended post list includes for index pages: `["authors"]`, adding `categories`, `tags`, or `media` only when rendered.
+- Cursor pagination uses `limit` and `after`. Numbered pagination uses `page` and optional `per_page`; do not mix the two modes.
 
 ## Output Style
 

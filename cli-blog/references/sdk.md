@@ -6,17 +6,26 @@ Install:
 
 ```sh
 npm install @cli-blog/node
+```
+
+```sh
 bun add @cli-blog/node
+```
+
+```sh
 pnpm add @cli-blog/node
 ```
 
 Create a client:
 
-```ts
+```js
 import { CliBlog } from "@cli-blog/node";
 
+const apiKey = process.env.CLI_BLOG_API_KEY;
+if (!apiKey) throw new Error("CLI_BLOG_API_KEY is required");
+
 const blog = new CliBlog({
-  apiKey: process.env.CLI_BLOG_API_KEY!,
+  apiKey,
 });
 ```
 
@@ -40,8 +49,34 @@ const posts = await blog.posts.list({
   fields: ["summary", "seo"],
   include: ["authors"],
   limit: 20,
+  category_match: "all",
+  exclude_tag_slug: ["internal"],
 });
 ```
+
+Cursor pagination is the default:
+
+```ts
+const firstPage = await blog.posts.list({ limit: 20 });
+const nextPage = firstPage.next_cursor
+  ? await blog.posts.list({ after: firstPage.next_cursor, limit: 20 })
+  : null;
+```
+
+Use numbered pagination only when the UI needs exact page counts:
+
+```ts
+const numberedPage = await blog.posts.list({
+  page: 2,
+  per_page: 20,
+  status: "published",
+  fields: ["summary", "seo"],
+});
+
+console.log(numberedPage.total_items, numberedPage.total_pages);
+```
+
+Do not mix `page`/`per_page` with `after`/`limit`. SDK `paginate()` helpers are cursor-only.
 
 Publish a post:
 
@@ -56,9 +91,8 @@ const draft = await blog.posts.create({
   author_profile_ids: [author.id],
   category_ids: [category.id],
   tag_ids: [tag.id],
+  media_asset_ids: ["media_123"],
 });
 
 await blog.posts.publish(draft.id, { expected_version: draft.version });
 ```
-
-Use `AbortSignal.timeout(5000)` only when the user asks for request timeouts. Explain it as a built-in Node timeout/cancel handle.

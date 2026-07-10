@@ -2,9 +2,20 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
+      - staging
   push:
     branches:
       - main
+      - staging
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:

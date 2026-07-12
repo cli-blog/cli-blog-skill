@@ -1,4 +1,0 @@
-interface:
-  display_name: "Cli Blog"
-  short_description: "Use Cli Blog in apps, APIs, CLIs, and agents"
-  default_prompt: "Use $cli-blog to add a blog to my project with the best Cli Blog integration path."

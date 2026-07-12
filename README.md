@@ -1,90 +1,67 @@
 # Cli Blog Agent Skill
 
+[![skills.sh](https://skills.sh/b/cli-blog/cli-blog-skill)](https://skills.sh/cli-blog/cli-blog-skill/cli-blog)
+
 Use this skill to help AI agents add [Cli Blog](https://cli-blog.com) to software projects through the public API, the `@cli-blog/node` SDK, or the `@cli-blog/cli`.
 
 ## What It Helps With
 
 - Choosing between the dashboard, Node SDK, CLI, and direct HTTP API.
-- Adding blog index and post pages to common frameworks.
-- Publishing Markdown posts from scripts, CI, or agent workflows.
-- Working with authors, media, categories, tags, locales, sitemap XML, feed XML, revisions, and slug redirects.
+- Adding complete blog index, detail, feed, sitemap, preview, and publishing flows to common frameworks.
+- Creating draft-review-publish workflows from scripts, CI, or agent runtimes with optimistic concurrency.
+- Working with authors, upload-first media, ordered attachments, categories, tags, locales, translations, SEO, revisions, and slug redirects.
+- Building lean delivery queries with field groups, includes, relation filters, and cursor or numbered pagination.
 - Protecting API keys by keeping private keys on trusted servers and using public keys for published-content reads.
 
-## Install For Codex / OpenAI Agents
+## Install
 
-Clone the repository:
-
-```sh
-git clone https://github.com/cli-blog/cli-blog-skill.git
-```
-
-Install it for your user-level Codex configuration:
+Install the skill with the open Agent Skills CLI:
 
 ```sh
-mkdir -p ~/.codex/skills
-cp -R cli-blog-skill/cli-blog ~/.codex/skills/cli-blog
+npx skills add cli-blog/cli-blog-skill
 ```
 
-Or install it in one project using the shared agent-skills convention:
+The installer detects supported agents such as Codex, Claude Code, Cursor, and OpenCode and lets you choose where to install the skill. Add `-g` to make it available across all projects:
 
 ```sh
-mkdir -p .agents/skills
-cp -R cli-blog-skill/cli-blog .agents/skills/cli-blog
+npx skills add cli-blog/cli-blog-skill -g
 ```
 
-Restart or reload the agent after installation so it discovers `cli-blog/SKILL.md`. OpenAI-facing metadata lives at `cli-blog/agents/openai.yaml`.
-
-## Install For Claude Code
-
-Claude Code commonly reads `CLAUDE.md` project instructions. This repository includes a root `CLAUDE.md` that tells Claude how to use the bundled skill.
-
-```sh
-git clone https://github.com/cli-blog/cli-blog-skill.git
-```
-
-Install the skill in a Claude Code project:
-
-```sh
-mkdir -p .claude/skills
-cp -R cli-blog-skill/cli-blog .claude/skills/cli-blog
-```
-
-The root `CLAUDE.md` is optional project guidance for repositories that want to route matching tasks to the installed skill.
-
-The Claude-facing helper note lives at:
-
-```txt
-cli-blog/agents/claude.md
-```
+Browse the skill, check its install count, and review its files on [skills.sh](https://skills.sh/cli-blog/cli-blog-skill/cli-blog).
 
 ## Skill Contents
 
 ```txt
-cli-blog/
-  SKILL.md
-  agents/
-    openai.yaml
-    claude.md
-  references/
-    api.md
-    cli.md
-    frameworks.md
-    sdk.md
+SKILL.md
+agents/
+  openai.yaml
+  claude.md
+references/
+  api.md
+  cli.md
+  content-model.md
+  frameworks.md
+  sdk.md
+  workflows.md
 CLAUDE.md
 ```
 
 ## Example Prompts
 
 ```txt
-Use the Cli Blog skill to add a blog index and post page to this Next.js app.
+Use the Cli Blog skill to add a production-ready blog index, post page, SEO metadata, sitemap, and feed to this Next.js app.
 ```
 
 ```txt
-Use the Cli Blog skill to publish Markdown posts from CI with the CLI.
+Use the Cli Blog skill to create a release-note draft from CI, return its review details, and publish only after approval.
 ```
 
 ```txt
-Use the Cli Blog skill to integrate published posts into this Django app.
+Use the Cli Blog skill to add localized published posts and category archives to this Django app without exposing a private key.
+```
+
+```txt
+Use the Cli Blog skill to translate this post to es-MX, inherit its relationships, and leave the translation as a draft for review.
 ```
 
 ## Notes

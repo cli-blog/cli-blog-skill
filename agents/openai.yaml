@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cli Blog"
+  short_description: "Build complete, safe Cli Blog publishing workflows"
+  default_prompt: "Use $cli-blog to add a complete draft-to-delivery blog workflow to my project."
